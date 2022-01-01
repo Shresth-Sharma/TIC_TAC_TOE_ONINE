@@ -14,6 +14,8 @@ var chance=0;
 var c1,c2,c3,c4;
 var index=0;
 var win1=0,win2=0,win3=0;
+var p1=0;
+var p2=0;
 function preload(){
     c1=loadImage("cross.png");
     c2=loadImage("O.png");
@@ -151,6 +153,11 @@ function setup(){
     x8=0;
     z9=0;
     x9=0;
+    var gameStateRef  = database.ref('Views on TIC_TAC_TOE_ONLINE');
+    gameStateRef.on("value",function(data){
+    p1 = data.val();
+    });
+    p2=1
 }
 function draw(){
     background("orange");
@@ -264,5 +271,16 @@ function draw(){
             S:players
         });
     }
+    if(p1!==0){
+        database.ref('/').update({
+            "Views on TIC_TAC_TOE_ONLINE":p1
+        });
+     }
+     if(p2===1&&p1!==0){
+         p1=p1+1
+         p2=0
+    }
+    textSize(50);
+    text("Views : "+p1,100,50);
    drawSprites();
 }
